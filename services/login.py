@@ -26,8 +26,6 @@ def make_user_agent():
     return ua.random
 
 
-
-
 def new_driver_make(proxy: str = None):
     options = webdriver.ChromeOptions() 
     options.headless = False
@@ -105,7 +103,7 @@ try:
         email_input.send_keys(char)
         human_sleep(0.05, 4)
 
-    print("✅ Email typed.")
+    print("Email typed.")
 except Exception as e:
     print("Email input failed:", e)
     retry_login_page()
@@ -123,7 +121,7 @@ try:
 
     print("Password typed.")
 except Exception as e:
-    print("❌ Password input failed:", e)
+    print("Password input failed:", e)
     retry_login_page()
 
 cookie_accept()
@@ -144,7 +142,7 @@ except Exception as e:
 
 try:
     wait.until(EC.url_changes(LOGIN_URL))
-    print("✅ Navigation successful! Current URL:", new_driver.current_url)
+    print("Navigation successful! Current URL:", new_driver.current_url)
 except Exception as e:
     print("No URL change detected.")
 
