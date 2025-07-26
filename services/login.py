@@ -17,18 +17,12 @@ proxies = {
     "password":"v3gz64pos32w"
 }
 
-def make_user_agent():
-    ua = UserAgent(
-    platforms=["mobile", "tablet"], 
-    os=["Android","iOS"],
-    fallback="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36"
-)
-    return ua.random
+
 
 
 def new_driver_make(proxy: str = None):
     options = uc.ChromeOptions() 
-    options.headless = True
+    options.headless = False
     options.add_argument("--headless=new") 
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
