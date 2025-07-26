@@ -40,7 +40,7 @@ def create_temp_email():
     }
     response = requests.post(BASE_URL, headers=HEADERS, json=payload)
     if response.status_code == 200:
-        print(f"✅ Created: {name}@{DOMAIN}")
+        print(f"Created: {name}@{DOMAIN}")
         print(response.json())
         return response.json()
     else:

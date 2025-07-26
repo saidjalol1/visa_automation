@@ -27,12 +27,14 @@ def make_user_agent():
 
 
 def new_driver_make(proxy: str = None):
-    options = webdriver.ChromeOptions() 
-    options.headless = False
+    options = uc.ChromeOptions() 
+    options.headless = True
+    options.add_argument("--headless=new") 
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument("--disable-blink-features=AutomationControlled")
     options.add_argument("start-maximized")
+    options.add_argument("--window-size=1920,1080")
     driver = uc.Chrome(options=options)
     try:
         driver.execute_cdp_cmd(
@@ -67,7 +69,7 @@ def cookie_accept():
             actions.move_to_element(cookie_button).pause(random.uniform(0.3, 0.6)).click().perform()
             print("Cookie consent accepted.")
     except Exception as e:
-        print("ℹNo cookie prompt visible or already accepted.")
+        print("No cookie prompt visible or already accepted.")
 
 def check_session_expired():
     return "Session Expired" in new_driver.page_source or "page-not-found" in new_driver.current_url
@@ -75,7 +77,7 @@ def check_session_expired():
 def retry_login_page(max_attempts=3):
     for attempt in range(max_attempts):
         if check_session_expired():
-            print(f"🔁 Session expired (Attempt {attempt+1}/{max_attempts}). Retrying...")
+            print(f"Session expired (Attempt {attempt+1}/{max_attempts}). Retrying...")
             new_driver.delete_all_cookies()
             new_driver.refresh()
             cookie_accept()
@@ -101,7 +103,7 @@ try:
     email = "saidjalol1908@gmail.com"
     for char in email:
         email_input.send_keys(char)
-        human_sleep(0.05, 4)
+        human_sleep(0.05, 2)
 
     print("Email typed.")
 except Exception as e:
@@ -124,6 +126,7 @@ except Exception as e:
     print("Password input failed:", e)
     retry_login_page()
 
+new_driver.save_screenshot("screenshot_login.png")
 cookie_accept()
 time.sleep(5)
 
@@ -142,10 +145,11 @@ except Exception as e:
 
 try:
     wait.until(EC.url_changes(LOGIN_URL))
+    new_driver.save_screenshot("screenshot.png")
     print("Navigation successful! Current URL:", new_driver.current_url)
 except Exception as e:
     print("No URL change detected.")
-
+    new_driver.save_screenshot("screen_shot_otp.png")
 
 
 
