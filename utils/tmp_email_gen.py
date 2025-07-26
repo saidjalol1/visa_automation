@@ -44,5 +44,5 @@ def create_temp_email():
         print(response.json())
         return response.json()
     else:
-        print(f"❌ Failed ({response.status_code}): {response.text}")
+        print(f"Failed ({response.status_code}): {response.text}")
         return None

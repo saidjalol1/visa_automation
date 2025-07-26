@@ -29,9 +29,9 @@ def write_users_to_database(data, log_callback, frame_call_back):
             password= str(generate_password()),
             token = str(account.get("token"))
         )
-        log_callback(f"[✔] Email and password created for: {account.get('email')}")
+        log_callback(f"Email and password created for: {account.get('email')}")
 
-    log_callback("[✅] All users have been processed.Start registering !!!")
+    log_callback("All users have been processed.Start registering !!!")
     frame_call_back()
     return data
 

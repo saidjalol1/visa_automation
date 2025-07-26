@@ -1,7 +1,7 @@
 import random
 from playwright.async_api import async_playwright
 
-# Sample list of cities (add more as needed)
+
 FAKE_LOCATIONS = [
     {"name": "Berlin", "lat": 52.5200, "lon": 13.4050},
     {"name": "Tokyo", "lat": 35.6895, "lon": 139.6917},
@@ -13,7 +13,7 @@ FAKE_LOCATIONS = [
     {"name": "Sydney", "lat": -33.8688, "lon": 151.2093},
     {"name": "London", "lat": 51.5074, "lon": -0.1278},
     {"name": "Toronto", "lat": 43.651070, "lon": -79.347015}
-    # ... you can extend this list up to 100+ entries
+
 ]
 
 

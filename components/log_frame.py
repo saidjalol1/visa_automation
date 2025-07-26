@@ -13,6 +13,6 @@ def create_log_frame(root_):
 
     def log_callback(message):
         log_text.insert(tk.END, f"{message}\n")
-        log_text.see(tk.END)  # Auto-scroll
+        log_text.see(tk.END)
 
     return log_callback

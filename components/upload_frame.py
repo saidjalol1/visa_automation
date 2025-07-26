@@ -11,7 +11,7 @@ def create_upload_component(root_, log_call_back, fram_call_back):
     file_label = tk.Label(upload_frame, text="No file selected")
     file_label.pack(pady=5)
 
-    selected_file = {"path": None}  # Use dict to allow inner function access
+    selected_file = {"path": None}  
 
     def select_file():
         file_path = filedialog.askopenfilename(filetypes=[("Excel Files", "*.xlsx")])
