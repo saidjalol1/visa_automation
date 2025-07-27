@@ -16,11 +16,12 @@ def email_filed_filling(email, driver, wait, actions):
         for char in email:
             email_input.send_keys(char)
             human_sleep(0.05, 2)
-
+        save_page_screenshot = driver.save_screenshot("screenshot_login.png")
         print("Email typed.")
         return True
     except Exception as e:
         print("Email input failed:", e)
+        save_page_screenshot = driver.save_screenshot("screenshot_login.png")
         return False
     
 
@@ -39,6 +40,7 @@ def password_fill(password, driver, wait, actions):
         return True
     except Exception as e:
         print("Password input failed:", e)
+        save_page_screenshot = driver.save_screenshot("screenshot_login.png")
         return False
         
 
@@ -52,6 +54,7 @@ def cookie_accept(driver,wait, actions):
         return True
     except Exception as e:
         print("No cookie prompt visible or already accepted.")
+        save_page_screenshot = driver.save_screenshot("screenshot_login.png")
         return False
 
 def sign_in(driver, wait, actions):
