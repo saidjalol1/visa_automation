@@ -1,151 +1,26 @@
-import sys
 import time
-import random
-import undetected_chromedriver as uc
-from selenium.webdriver.common.by import By
-from selenium.webdriver.common.action_chains import ActionChains
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium import webdriver
-from selenium.webdriver.chrome.options import Options
-from fake_useragent import UserAgent
 from config import LOGIN_URL
+from .login_actions.config import create_waiter, create_new_action_chain, new_driver_make
+from .login_actions.utils import check_session_expired, retry_until_success
+from .login_actions.form_actions import email_filed_filling, password_fill, cookie_accept, navigation_sense, sign_in, get_site_key_from_js
+from .login_actions.captcha_solve import solve_turnstile, inject_turnstile_token
 
-proxies = {
-    "server":"brd.superproxy.io:33335",
-    "username":"brd-customer-hl_4ddf9635-zone-vfs_auto",
-    "password":"v3gz64pos32w"
-}
+chrome_driver = new_driver_make(headless_=False)
+waiter = create_waiter(chrome_driver, wait_time=30)
+actions = create_new_action_chain(chrome_driver)
 
+chrome_driver.get(LOGIN_URL)
 
+retry_until_success(email_filed_filling, 5, "saidjalol1908@gmail.com", chrome_driver, waiter, actions)
+retry_until_success(password_fill, 5, "Passw0rd!", chrome_driver, waiter, actions)
+retry_until_success(cookie_accept, 5, chrome_driver, waiter, actions)
 
-
-def new_driver_make(proxy: str = None):
-    options = uc.ChromeOptions() 
-    options.headless = False
-    options.add_argument("--headless=new") 
-    options.add_argument("--no-sandbox")
-    options.add_argument("--disable-dev-shm-usage")
-    options.add_argument("--disable-blink-features=AutomationControlled")
-    options.add_argument("start-maximized")
-    options.add_argument("--window-size=1920,1080")
-    driver = uc.Chrome(options=options)
-    try:
-        driver.execute_cdp_cmd(
-            'Page.addScriptToEvaluateOnNewDocument',
-            {
-                'source': '''
-                Object.defineProperty(navigator, 'webdriver', {
-                  get: () => undefined
-                });
-                '''
-            }
-        )
-    except Exception as e:
-        print("Stealth patch failed:", e)
-
-    return driver
-
-
-new_driver = new_driver_make()
-wait = WebDriverWait(new_driver, 30)
-actions = ActionChains(new_driver)
-new_driver.get(LOGIN_URL)
-
-def human_sleep(a=0.2, b=0.6):
-    time.sleep(random.uniform(a, b))
-
-def cookie_accept():
-    try:
-        print("Waiting for cookie consent button...")
-        cookie_button = wait.until(EC.presence_of_element_located((By.XPATH, "//button[contains(., 'Accept Only Necessary')]")))
-        if cookie_button.is_displayed() and cookie_button.is_enabled():
-            actions.move_to_element(cookie_button).pause(random.uniform(0.3, 0.6)).click().perform()
-            print("Cookie consent accepted.")
-    except Exception as e:
-        print("No cookie prompt visible or already accepted.")
-
-def check_session_expired():
-    return "Session Expired" in new_driver.page_source or "page-not-found" in new_driver.current_url
-
-def retry_login_page(max_attempts=3):
-    for attempt in range(max_attempts):
-        if check_session_expired():
-            print(f"Session expired (Attempt {attempt+1}/{max_attempts}). Retrying...")
-            new_driver.delete_all_cookies()
-            new_driver.refresh()
-            cookie_accept()
-            human_sleep(2, 4)
-        else:
-            return True
-    print("Session could not be recovered.")
-    sys.exit(1)
-
-
-human_sleep(2, 2)
-cookie_accept()
-
-
-retry_login_page()
-
-
-try:
-    email_input = wait.until(EC.visibility_of_element_located((By.ID, "email")))
-    actions.move_to_element(email_input).click().perform()
-    human_sleep()
-
-    email = "saidjalol1908@gmail.com"
-    for char in email:
-        email_input.send_keys(char)
-        human_sleep(0.05, 2)
-
-    print("Email typed.")
-except Exception as e:
-    print("Email input failed:", e)
-    retry_login_page()
-
-
-try:
-    password_input = wait.until(EC.visibility_of_element_located((By.ID, "password")))
-    actions.move_to_element(password_input).click().perform()
-    human_sleep()
-
-    password = "Passw0rd!"
-    for char in password:
-        password_input.send_keys(char)
-        human_sleep(0.05, 2)
-
-    print("Password typed.")
-except Exception as e:
-    print("Password input failed:", e)
-    retry_login_page()
-
-new_driver.save_screenshot("screenshot_login.png")
-cookie_accept()
-time.sleep(5)
-
-
-try:
-    print("Waiting for Sign In button...")
-    sign_in_btn = wait.until(EC.element_to_be_clickable((By.XPATH, "//button[.//span[contains(text(), 'Sign In')]]")))
-
-    if sign_in_btn.is_displayed():
-        actions.move_to_element(sign_in_btn).pause(random.uniform(0.3, 0.7)).click().perform()
-        print("Sign In button clicked.")
-except Exception as e:
-    print("Sign In click failed:", e)
-
-
-
-try:
-    wait.until(EC.url_changes(LOGIN_URL))
-    new_driver.save_screenshot("screenshot.png")
-    print("Navigation successful! Current URL:", new_driver.current_url)
-except Exception as e:
-    print("No URL change detected.")
-    new_driver.save_screenshot("screen_shot_otp.png")
+save_page_screenshot = chrome_driver.save_screenshot("screenshot_login.png")
+sing_in_button = sign_in(chrome_driver,waiter,actions)
 
 
 
 
-new_driver.quit()
+time.sleep(200)
+chrome_driver.close()
+

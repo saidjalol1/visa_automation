@@ -2,7 +2,7 @@
 import sqlite3
 import os
 from pathlib import Path
-
+from twocaptcha import TwoCaptcha
 
 
 # Urls settings
@@ -12,6 +12,18 @@ REGISTER_URL = "https://visa.vfsglobal.com/uzb/en/ltp/register"
 # Tor settings
 TOR_PROXY = "socks5://127.0.0.1:9050"
 
+# Cloudeflare solver
+config = {
+            'server':           '2captcha.com',
+            'apiKey':           'YOUR_API_KEY',
+            'softId':            123,
+            'callback':         'https://your.site/result-receiver',
+            'defaultTimeout':    120,
+            'recaptchaTimeout':  600,
+            'pollingInterval':   10,
+            'extendedResponse':  False
+        }
+solver = TwoCaptcha(**config)
 
 
 # Browser settings
