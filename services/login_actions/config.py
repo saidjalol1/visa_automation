@@ -25,8 +25,6 @@ def get_chrome_options(headless=False):
     return options
 
 def set_initial_cookies(driver, domain):
-    """Set initial cookies before accessing the target site"""
-
     driver.get("https://www.google.com")
     time.sleep(2) 
     
