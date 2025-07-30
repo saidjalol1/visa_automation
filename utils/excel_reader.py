@@ -12,22 +12,25 @@ def write_users_to_database(data, log_callback, frame_call_back):
         create_users_table()
         account = create_temp_email()
         insert_into_table(
-            "users",
-            category = i.get("Category"),
-            subcategory = i.get("Subcategory"),
-            city = i.get("City"),
-            nation = i.get("Nationality"),
-            gender = i.get("Gender (M/F)"),
-            book_data_from= i.get("Book date from  (dd.mm.yyyy)"),
-            book_data_to= i.get("Book date to  (dd.mm.yyyy)"),
-            name=f"{i.get('Surname')} {i.get('Name')}",
-            passport=i.get("Passport number"),
-            birth_date = i.get("Birthdate (dd.mm.yyyy)"),
-            passport_validity = i.get("Passport validity  (dd.mm.yyyy)"),
-            email= str(account.get("email")),
-            phone=i.get("Phone"),
-            password= str(generate_password()),
-            token = str(account.get("token"))
+        "users",
+        category=i.get("Category"),
+        subcategory=i.get("Subcategory"),
+        city=i.get("City"),
+        name=f"{i.get('Surname')} {i.get('Name')}",
+        passport=i.get("Passport number"),
+        birth_date=i.get("Birthdate (dd.mm.yyyy)"),
+        passport_validity=i.get("Passport validity  (dd.mm.yyyy)"),
+        gender=i.get("Gender (M/F)"),
+        phone=i.get("Phone"),
+        nation=i.get("Nationality"),
+        book_data_from=i.get("Book date from  (dd.mm.yyyy)"),
+        book_data_to=i.get("Book date to  (dd.mm.yyyy)"),
+        candidate_number = i.get("MIGRIS number"),
+        email=str(account.get("email")),
+        password=str(generate_password()),
+        registered=0,
+        booked=0,
+        token=str(account.get("token")),
         )
         log_callback(f"Email and password created for: {account.get('email')}")
 
@@ -48,7 +51,7 @@ async def read_excel(file_path: str, sheet_name: str = None, log_callback = None
     required_columns = [
         "Category", "Subcategory", "City", "Nationality", "Gender (M/F)",
         "Book date from  (dd.mm.yyyy)", "Book date to  (dd.mm.yyyy)",
-        "Surname", "Name", "Passport number", "Passport validity  (dd.mm.yyyy)"
+        "Surname", "Name", "Passport number", "Passport validity  (dd.mm.yyyy)","MIGRIS number"
     ]
 
     df = df.dropna(subset=required_columns, how='any')

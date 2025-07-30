@@ -1,5 +1,5 @@
 from config import cursor, database_connection, FILE_PATH
-
+import sqlite3
 
 def create_users_table():
     cursor.execute("""
@@ -17,6 +17,9 @@ def create_users_table():
             nation TEXT,
             book_data_from TEXT,
             book_data_to TEXT,
+            candidate_number TEXT,
+            registered INTEGER DEFAULT 0,
+            booked INTEGER DEFAULT 0,
             email TEXT,
             password TEXT,
             token TEXT
@@ -42,3 +45,16 @@ def read_from_table(table_name: str) -> list[tuple]:
     command = f"SELECT * FROM {table_name}"
     cursor.execute(command)
     return cursor.fetchall()
+
+
+def fetch_all_users_as_dict(db_path):
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row 
+    cursor = conn.cursor()
+
+    cursor.execute("SELECT * FROM users")
+    rows = cursor.fetchall()
+
+    result = [dict(row) for row in rows]
+    conn.close()
+    return result

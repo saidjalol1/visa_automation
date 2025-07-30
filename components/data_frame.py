@@ -6,7 +6,7 @@ from utils.db_commands import read_from_table
 columns = (
     "id", "Category", "SubCategory", "City", "Fullname", "Passport", 
     "Birth_date", "Passport validity", "Gender", "Phone", "Nation", 
-    "Book date from", "Book date to", "Email", "Password"
+    "Book date from", "Book date to",  "Registered","Booked","Email", "Password",
 )
 
 def populate_tree(tree):
@@ -27,7 +27,7 @@ def create_data_preview_component(root_):
     preview_frame = tk.LabelFrame(root_, text="Data Preview", padx=10, pady=10)
     preview_frame.place(x=20, y=200, width=550, height=420)
 
-    columns = ("id","Category","SubCategory","City","Fullname", "Passport","Birth_date","Passport validity","Gender","Phone","Nation","Book date from","Book date to","Email","Password")
+    columns = ("id","Category","SubCategory","City","Fullname", "Passport","Birth_date","Passport validity","Gender","Phone","Nation","Book date from","Book date to","Registered","Booked""Email","Password","Token")
 
 
     container = tk.Frame(preview_frame)

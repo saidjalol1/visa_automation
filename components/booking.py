@@ -9,10 +9,6 @@ def create_booking_component(root_):
     tk.Button(booking_frame, text="Start Booking", bg="#28a745", fg="white").pack(side="left", padx=10)
     tk.Button(booking_frame, text="Start Registering", bg="#f70909", fg="white").pack(side="left", padx=10)
 
-
-    progress_label = tk.Label(booking_frame, text="Processing: 0 of 0 users")
-    progress_label.pack(pady=5, anchor="w")
-
     progress = ttk.Progressbar(booking_frame, length=560, value=0)
     progress.pack()
     
