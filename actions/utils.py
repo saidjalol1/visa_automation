@@ -23,10 +23,20 @@ def retry_login_page(driver, max_attempts=3):
     print("Session could not be recovered.")
     
 
-def retry_until_success(func, max_retries=3, *args, **kwargs):
-    for attempt in range(max_retries):
-        result = func(*args, **kwargs)
-        if result:
-            return True
-        print(f"Retrying {func.__name__} (attempt {attempt + 1}/{max_retries})")
+def retry_until_success(func, *args, **kwargs):
+    while True:
+        try:
+            result = func(*args, **kwargs)
+            if result:
+                return True
+            else:
+                print("Attempt failed. Retrying...")
+        except Exception as e:
+            print(f"Exception occurred: {e}. Retrying...")
+        time.sleep(3)
+
+
+def check_values(values):
+    if all(values):
+        return True
     return False

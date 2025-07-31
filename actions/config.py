@@ -22,3 +22,5 @@ def create_new_action_chain(driver):
 
 def create_waiter(driver, wait_time=30):
     return WebDriverWait(driver, wait_time)
+
+# The most common IP version assigned by ISPs.213.230.116.8

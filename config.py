@@ -4,7 +4,6 @@ import os
 from pathlib import Path
 
 
-
 # Urls settings
 LOGIN_URL = "https://visa.vfsglobal.com/uzb/en/ltp/login"
 REGISTER_URL = "https://visa.vfsglobal.com/uzb/en/ltp/register"
